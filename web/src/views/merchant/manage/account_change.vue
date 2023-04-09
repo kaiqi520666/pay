@@ -1,0 +1,114 @@
+<template>
+  <el-scrollbar>
+    <el-space>
+      <el-input v-model="query.order_id" placeholder="请输入平台订单号" />
+      <el-input v-model="query.withdraw_id" placeholder="请输入取款订单号" />
+      <el-select v-model="query.account_category_id" clearable placeholder="类型">
+        <el-option
+          v-for="item in account_categories"
+          :key="item.id"
+          :label="item.name!"
+          :value="item.id as number"
+        />
+      </el-select>
+      <el-date-picker
+        v-model="query.start_time"
+        format="YYYY-MM-DD HH:mm:ss"
+        placeholder="开始时间"
+        type="datetime"
+      />
+      <el-date-picker
+        v-model="query.end_time"
+        format="YYYY-MM-DD HH:mm:ss"
+        placeholder="结束时间"
+        type="datetime"
+      />
+      <el-button icon="Search" type="primary" @click="find_records">搜索 </el-button>
+    </el-space>
+    <el-divider />
+    <el-table v-loading="loading" :data="records" border stripe>
+      <el-table-column label="关联订单号">
+        <template #default="prpos">
+          <template v-if="prpos.row.account_category.operate === 1">
+            <el-button
+              type="primary"
+              link
+              @click="clickHandler(prpos.row.order.order_id, 'merchant_order_list')"
+            >
+              {{ prpos.row.order.order_id }}
+            </el-button>
+          </template>
+          <template v-else>
+            <el-button
+              type="primary"
+              link
+              @click="clickHandler(prpos.row.withdraw.order_id, 'merchant_withdraw_list')"
+            >
+              {{ prpos.row.withdraw.order_id }}
+            </el-button>
+          </template>
+        </template>
+      </el-table-column>
+      <el-table-column label="账变类型" prop="account_category.name"></el-table-column>
+      <el-table-column label="之前金额" prop="before"></el-table-column>
+      <el-table-column label="账变金额">
+        <template #default="prpos">
+          <template v-if="prpos.row.account_category.operate === 1">
+            <el-tag type="success">+{{ prpos.row.amount }}</el-tag>
+          </template>
+          <template v-else>
+            <el-tag type="danger">-{{ prpos.row.amount }}</el-tag>
+          </template>
+        </template>
+      </el-table-column>
+      <el-table-column label="之后金额" prop="after"></el-table-column>
+      <el-table-column label="生成时间">
+        <template #default="prop">
+          {{ useDateFormat(prop.row.create_time, 'YY-MM-DD HH:mm:ss').value }}
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-scrollbar>
+</template>
+<script lang="ts" setup>
+import { find_account_changes } from '@/api/account_change';
+import type { AccountCategoryModel, AccountChangeModel, QueryModel } from '@/types';
+import { onMounted, ref, shallowRef } from 'vue';
+import { removeEmpty } from '@/utils/common';
+import { useDateFormat } from '@vueuse/core';
+import { useRouter } from 'vue-router';
+import { useStore } from '@/store';
+import { find_account_categories } from '@/api/account_category';
+
+const router = useRouter();
+
+const records = shallowRef<AccountChangeModel[]>([]);
+const account_categories = shallowRef<AccountCategoryModel[]>([]);
+const loading = ref(true);
+const query = ref<QueryModel>({
+  order_id: undefined,
+  account_category_id: undefined,
+  withdraw_id: undefined,
+  start_time: undefined,
+  end_time: undefined
+});
+const clickHandler = (order_id: string, type: string) => {
+  const store = useStore();
+  store.order_id = order_id;
+  router.push({ name: type });
+};
+const find_records = async () => {
+  loading.value = true;
+  const { data } = await find_account_changes(0, removeEmpty(query.value));
+  records.value = data.records[0];
+  loading.value = false;
+};
+const find_account_category = async () => {
+  const { data } = await find_account_categories();
+  account_categories.value = data.records;
+};
+onMounted(() => {
+  find_records();
+  find_account_category();
+});
+</script>
