@@ -12,17 +12,17 @@
           router
           style="height: 100%"
         >
-          <el-sub-menu v-for="item in menuList?.children" :index="item.path">
+          <el-sub-menu v-for="item in menuList!.children as RouteRecordRaw[]" :index="item.path">
             <template #title>
               <el-icon>
-                <component :is="item.meta?.icon" />
+                <component :is="item.meta?.icon!" />
               </el-icon>
-              <span>{{ item.meta?.title }}</span>
+              <span>{{ item.meta.title }}</span>
             </template>
             <el-menu-item
-              v-for="it in item.children"
+              v-for="it in item.children as RouteRecordRaw[]"
               :index="'/' + role + '/' + item.path + '/' + it.path"
-              >{{ it.meta?.title }}
+              >{{ it.meta.title }}
             </el-menu-item>
           </el-sub-menu>
         </el-menu>
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, RouteRecordNormalized, RouteRecordRaw } from 'vue-router';
 import TabView from '@/components/tab_view.vue';
 import { getUserInfo } from '@/utils/common';
 import { ref } from 'vue';

@@ -23,28 +23,28 @@
         placeholder="结束时间"
         type="datetime"
       />
-      <el-button icon="Search" type="primary" @click="find_records">搜索 </el-button>
+      <el-button icon="Search" type="primary" @click="find_records">搜索</el-button>
     </el-space>
     <el-divider />
     <el-table v-loading="loading" :data="records" border stripe>
       <el-table-column label="关联订单号">
-        <template #default="prpos">
-          <template v-if="prpos.row.account_category.operate === 1">
+        <template #default="props">
+          <template v-if="props.row.account_category.operate === 1">
             <el-button
               type="primary"
               link
-              @click="clickHandler(prpos.row.order.order_id, 'merchant_order_list')"
+              @click="clickHandler(props.row.order.order_id, 'merchant_order_list')"
             >
-              {{ prpos.row.order.order_id }}
+              {{ props.row.order.order_id }}
             </el-button>
           </template>
           <template v-else>
             <el-button
               type="primary"
               link
-              @click="clickHandler(prpos.row.withdraw.order_id, 'merchant_withdraw_list')"
+              @click="clickHandler(props.row.withdraw.order_id, 'merchant_withdraw_list')"
             >
-              {{ prpos.row.withdraw.order_id }}
+              {{ props.row.withdraw.order_id }}
             </el-button>
           </template>
         </template>
@@ -52,19 +52,19 @@
       <el-table-column label="账变类型" prop="account_category.name"></el-table-column>
       <el-table-column label="之前金额" prop="before"></el-table-column>
       <el-table-column label="账变金额">
-        <template #default="prpos">
-          <template v-if="prpos.row.account_category.operate === 1">
-            <el-tag type="success">+{{ prpos.row.amount }}</el-tag>
+        <template #default="props">
+          <template v-if="props.row.account_category.operate === 1">
+            <el-tag type="success">+{{ props.row.amount }}</el-tag>
           </template>
           <template v-else>
-            <el-tag type="danger">-{{ prpos.row.amount }}</el-tag>
+            <el-tag type="danger">-{{ props.row.amount }}</el-tag>
           </template>
         </template>
       </el-table-column>
       <el-table-column label="之后金额" prop="after"></el-table-column>
       <el-table-column label="生成时间">
-        <template #default="prop">
-          {{ useDateFormat(prop.row.create_time, 'YY-MM-DD HH:mm:ss').value }}
+        <template #default="props">
+          {{ useDateFormat(props.row.create_time, 'YY-MM-DD HH:mm:ss').value }}
         </template>
       </el-table-column>
     </el-table>

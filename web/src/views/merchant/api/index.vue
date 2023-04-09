@@ -6,7 +6,7 @@
       <el-descriptions-item label="提交方式"
         >POST Content-Type=application/json
       </el-descriptions-item>
-      <el-descriptions-item label="回调方式">GET 字符编码：UTF-8 </el-descriptions-item>
+      <el-descriptions-item label="回调方式">GET 字符编码：UTF-8</el-descriptions-item>
       <el-descriptions-item label="签名算法">
         <el-tag size="small">MD5</el-tag>
       </el-descriptions-item>
@@ -14,7 +14,7 @@
     <el-divider />
     <p class="title_1 mb10">2. 参数规范</p>
     <el-descriptions border>
-      <el-descriptions-item label="交易金额">默认为人民币交易，单位为元。 </el-descriptions-item>
+      <el-descriptions-item label="交易金额">默认为人民币交易，单位为元。</el-descriptions-item>
     </el-descriptions>
     <el-divider />
     <p class="title_1 mb10">3. 安全规范</p>
@@ -29,7 +29,7 @@
     <el-descriptions :column="1" border class="mb10">
       <el-descriptions-item label="待签名值"
         >{{
-          `merchant_id=6001045&out_order_id=P12312321123&channel=9900&amount=100&${''}notify_url=http://www.baidu.com&extra=100&secret_key=owep0945908lskdj823wefk`
+          `merchant_id=6001045&out_order_id=P12312321123&channel=9900&amount=100&notify_url=https://www.baidu.com&extra=100&secret_key=owep0945908lskdj823wefk`
         }}
       </el-descriptions-item>
       <el-descriptions-item label="签名结果"
@@ -37,7 +37,7 @@
       </el-descriptions-item>
       <el-descriptions-item label="最终参数"
         >{{
-          `merchant_id=6001045&out_order_id=P12312321123&channel=9900&amount=100&${''}notify_url=http://www.baidu.com&extra=100&sign=5E0AA05DD4BB4FE5AB65608123EBA591`
+          `merchant_id=6001045&out_order_id=P12312321123&channel=9900&amount=100&notify_url=https://www.baidu.com&extra=100&sign=5E0AA05DD4BB4FE5AB65608123EBA591`
         }}
       </el-descriptions-item>
     </el-descriptions>
@@ -108,7 +108,7 @@
     <custom_title> 接口描述</custom_title>
     <p class="mb10">
       当支付处理完成后，支付系统会通过该接口向商户发起支付结果通知。
-      <el-tag type="danger">通知以GET方式发送 </el-tag>
+      <el-tag type="danger">通知以GET方式发送</el-tag>
     </p>
     <custom_title> 接口链接</custom_title>
     <p class="mb10">
@@ -180,7 +180,7 @@ const table_1 = [
     variableName: 'notify_url',
     required: '是',
     type: 'String(128)',
-    example: 'http://www.baidu.com',
+    example: 'https://www.baidu.com',
     describe: '支付结果回调URL'
   },
   {
@@ -222,7 +222,7 @@ const table_2 = [
     variableName: 'data',
     required: '否',
     type: 'JSON',
-    example: "{order_id: 'Z01320123123405', url: 'http://a.b.com'}",
+    example: "{order_id: 'Z01320123123405', url: 'https://a.b.com'}",
     describe: '支付请求成功，返回系统生成的支付订单号'
   }
 ];
