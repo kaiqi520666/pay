@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter, useRoute, RouteRecordNormalized, RouteRecordRaw } from 'vue-router';
+import { useRouter, useRoute, RouteRecordRaw } from 'vue-router';
 import TabView from '@/components/tab_view.vue';
 import { getUserInfo } from '@/utils/common';
 import { ref } from 'vue';
