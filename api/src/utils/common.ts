@@ -1,6 +1,7 @@
 import { FindOrdersDTO } from '../dto/order';
 import { FindWithDrawsDTO } from '../dto/withdraw';
 import { FindAccountChangeDTO } from '../dto/account_change';
+import { FindUsersDTO } from '../dto/user';
 
 // 生成不重复随机字符加数字，20个字符
 export const randomString = (len: number) => {
@@ -39,7 +40,12 @@ export const get_find_orders_query = (
 ) => {
   let arr_str = [];
   let obj = {};
-  if (role === 'merchant') {
+  if (role === 'admin') {
+    if (body.user_id) {
+      arr_str.push('user.id = :user_id');
+      obj['user_id'] = body.user_id;
+    }
+  } else if (role === 'merchant') {
     arr_str.push('user.id = :user_id');
     obj['user_id'] = user_id;
   }
@@ -70,7 +76,20 @@ export const get_find_orders_query = (
   const str = arr_str.join(' and ');
   return { str, obj };
 };
-
+export const get_find_users_query = (body: FindUsersDTO) => {
+  let arr_str = [];
+  let obj = {};
+  if (body.user_id) {
+    arr_str.push('user.id = :user_id');
+    obj['user_id'] = body.user_id;
+  }
+  if (body.username) {
+    arr_str.push('user.username = :username');
+    obj['username'] = body.username;
+  }
+  const str = arr_str.join(' and ');
+  return { str, obj };
+};
 export const get_find_withdraws_query = (
   role: string,
   user_id: number,

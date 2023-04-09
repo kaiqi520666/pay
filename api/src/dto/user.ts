@@ -18,6 +18,14 @@ export class FindUserDTO {
   @Rule(RuleType.number())
   user_id: number;
 }
+
+export class FindUsersDTO {
+  @Rule(RuleType.number())
+  user_id: number;
+  @Rule(RuleType.string())
+  username: string;
+}
+
 export class UpdateUserDTO {
   @Rule(RuleType.number())
   id: number;

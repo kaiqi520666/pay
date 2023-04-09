@@ -1,6 +1,6 @@
 import { ALL, Body, Controller, Inject, Post } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
-import { UserLoginDTO, UserRegisterDTO } from '../dto/user';
+import { UserLoginDTO } from '../dto/user';
 import { UserEntity } from '../entity/user.entity';
 import { UserService } from '../service/user.service';
 import { BaseController } from './base.controller';
@@ -8,10 +8,8 @@ import { JwtService } from '@midwayjs/jwt';
 import { UserLoginService } from '../service/user_login.service';
 import { UserLoginEntity } from '../entity/user_login.entity';
 import { ChannelService } from '../service/channel.service';
-import { UserChannelEntity } from '../entity/user_channel.entity';
 import { UserChannelService } from '../service/user_channel.service';
-import { randomString } from '../utils/common';
-import { WalletTypeEntity } from '../entity/wallet_type.entity';
+
 @Controller('/api/sign')
 export class SignController extends BaseController {
   @Inject()
@@ -48,32 +46,33 @@ export class SignController extends BaseController {
       return this.error(404);
     }
   }
-  @Post('/register')
-  async register(@Body(ALL) body: UserRegisterDTO) {
-    const { username, password } = body;
-    const model = new UserEntity();
-    model.username = username;
-    model.password = password;
-    model.secret_key = randomString(20);
-    const wallet_type = new WalletTypeEntity();
-    wallet_type.id = 1;
-    model.wallet_type = wallet_type;
-    const user = await this.userService.register(model);
-    if (user) {
-      const channels = await this.channelService.find_channels();
-      const userChannels = new Array<UserChannelEntity>();
-      for (const channel of channels) {
-        const userChannel = new UserChannelEntity();
-        userChannel.user = user;
-        userChannel.channel = channel;
-        userChannel.rate = channel.rate;
-        userChannel.enabled = channel.enabled;
-        userChannels.push(userChannel);
-      }
-      await this.userChannelService.save_user_channels(userChannels);
-      return this.success();
-    } else {
-      return this.error(500, { error: 'username is already exist' });
-    }
-  }
+
+  // @Post('/register')
+  // async register(@Body(ALL) body: UserRegisterDTO) {
+  //   const { username, password } = body;
+  //   const model = new UserEntity();
+  //   model.username = username;
+  //   model.password = password;
+  //   model.secret_key = randomString(20);
+  //   const wallet_type = new WalletTypeEntity();
+  //   wallet_type.id = 1;
+  //   model.wallet_type = wallet_type;
+  //   const user = await this.userService.register(model);
+  //   if (user) {
+  //     const channels = await this.channelService.find_channels();
+  //     const userChannels = new Array<UserChannelEntity>();
+  //     for (const channel of channels) {
+  //       const userChannel = new UserChannelEntity();
+  //       userChannel.user = user;
+  //       userChannel.channel = channel;
+  //       userChannel.rate = channel.rate;
+  //       userChannel.enabled = channel.enabled;
+  //       userChannels.push(userChannel);
+  //     }
+  //     await this.userChannelService.save_user_channels(userChannels);
+  //     return this.success();
+  //   } else {
+  //     return this.error(500, { error: 'username is already exist' });
+  //   }
+  // }
 }

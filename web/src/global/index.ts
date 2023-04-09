@@ -1,5 +1,5 @@
 export const Global = {
-  LIMIT: 10,
+  LIMIT: 20,
   OFFSET: 0,
-  WEB_TITLE: " - W 支付",
+  WEB_TITLE: ' - W 支付'
 };

@@ -17,7 +17,9 @@ import { JwtPassportMiddleware } from '../middleware/jwt.middleware';
 import { OrderService } from '../service/order.service';
 import { get_find_orders_query } from '../utils/common';
 import { BaseController } from './base.controller';
+
 const moment = require('moment');
+
 @UseGuard(AuthGuard)
 @Controller('/api/order', { middleware: [JwtPassportMiddleware] })
 export class OrderController extends BaseController {
@@ -41,6 +43,7 @@ export class OrderController extends BaseController {
     const records = await this.orderService.find_orders(query);
     return this.success({ records });
   }
+
   @Role(['merchant'])
   @Get('/find_24h_order_by_user_id')
   async find_24h_order_by_user_id() {

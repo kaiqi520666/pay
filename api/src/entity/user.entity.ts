@@ -6,10 +6,12 @@ import { UserLoginEntity } from './user_login.entity';
 import { WalletTypeEntity } from './wallet_type.entity';
 import { WithdrawEntity } from './withdraw.entity';
 import { AccountChangeEntity } from './account_change.entity';
+
 enum Role {
   ADMIN = 'admin',
   MERCHANT = 'merchant',
 }
+
 @Entity('user')
 export class UserEntity extends BaseEntity {
   @Index({ unique: true })
@@ -33,7 +35,7 @@ export class UserEntity extends BaseEntity {
   @Column({ default: '', length: 50 })
   secret_key: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 200, default: '' })
   wallet_address: string;
 
   @Column({ default: true })
