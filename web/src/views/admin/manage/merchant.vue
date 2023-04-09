@@ -197,7 +197,6 @@ const user_channel = (id: string) => {
   router.push({ name: 'admin_user_channel' });
 };
 const order = (id: string) => {
-  //TODO
   store.user_id = id;
   router.push({ name: 'admin_order' });
 };
