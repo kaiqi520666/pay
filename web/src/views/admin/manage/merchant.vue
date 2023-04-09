@@ -11,7 +11,7 @@
           </el-descriptions-item>
           <el-descriptions-item label="钱包协议">
             <el-radio-group v-model="props.row.wallet_type.id">
-              <el-radio v-for="item in wallet_types" :label="item.id!">{{ item.name }} </el-radio>
+              <el-radio v-for="item in wallet_types" :label="item.id!">{{ item.name }}</el-radio>
             </el-radio-group>
           </el-descriptions-item>
           <el-descriptions-item label="钱包地址">
@@ -58,7 +58,7 @@
     <el-table-column label="操作" width="300">
       <template #default="prop">
         <el-space>
-          <el-button @click="update_record(prop.row as UserModel)">修改 </el-button>
+          <el-button @click="update_record(prop.row as UserModel)">修改</el-button>
           <el-button @click="user_channel(prop.row.id)">通道</el-button>
           <el-button>订单</el-button>
           <el-button>取款</el-button>
@@ -70,9 +70,8 @@
 <script setup lang="ts">
 import { find_users, update_user } from '@/api/user';
 import { onMounted, ref, shallowRef } from 'vue';
-import type { UpdateUserModel, UserModel } from '@/types';
+import type { UpdateUserModel, UserModel, WalletTypeModel } from '@/types';
 import { useDateFormat } from '@vueuse/core';
-import { WalletTypeModel } from '@/types';
 import { find_wallet_types } from '@/api/wallet_type';
 import { randomString } from '@/utils/common';
 import { ElMessage } from 'element-plus';
