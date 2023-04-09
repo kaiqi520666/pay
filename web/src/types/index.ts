@@ -26,6 +26,7 @@ export type UserChannelModel = {
   id?: number;
   rate: number;
   enabled: boolean;
+  name: string;
   user: UserModel;
   channel: ChannelModel;
 };
@@ -67,12 +68,12 @@ export type AccountCategoryModel = {
   operate?: number;
 };
 export const OrderStatus = [
-  { label: "支付中", value: 1 },
-  { label: "已支付", value: 2 },
+  { label: '支付中', value: 1 },
+  { label: '已支付', value: 2 }
 ];
 export const WithdrawStatus = [
-  { label: "申请中", value: 1 },
-  { label: "已完成", value: 2 },
+  { label: '申请中', value: 1 },
+  { label: '已完成', value: 2 }
 ];
 export type WalletTypeModel = {
   id?: number;
