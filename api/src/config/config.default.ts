@@ -31,7 +31,7 @@ export default {
     session: false,
   },
   channel1: {
-    url: 'http://localhost:7002/api',
+    url: 'http://27.102.66.92:8158/WebPayApi.asmx/AddOrderTestPost',
     api_id: '6ce4beed-f1d3-4360-9ef1-7ee05cc3e2e8',
     notify_url: 'http://www.baidu.com',
     return_url: 'http://www.sina.com.cn',

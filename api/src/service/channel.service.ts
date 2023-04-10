@@ -5,7 +5,9 @@ import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChannelEntity } from '../entity/channel.entity';
 import { HttpService } from '@midwayjs/axios';
+
 const md5 = require('md5');
+
 @Provide()
 export class ChannelService {
   @InjectEntityModel(ChannelEntity)
@@ -22,6 +24,7 @@ export class ChannelService {
     ip: string;
     secret_key: string;
   };
+
   async find_channels() {
     return await this.channelModel.find();
   }
@@ -29,7 +32,8 @@ export class ChannelService {
   async update_channel(channel: ChannelEntity) {
     return await this.channelModel.save(channel);
   }
-  async create_channel1(order_id: string, money: number, phone: string) {
+
+  async create_channel_1(order_id: string, money: number, phone: string) {
     const url = this.config.url;
     const api_id = this.config.api_id;
     const notify_url = this.config.notify_url;
@@ -37,7 +41,7 @@ export class ChannelService {
     const ip = this.config.ip;
     const secret_key = this.config.secret_key;
     const str = `api_id=${api_id}&money=${money}&notify_url=${notify_url}&orderid=${order_id}&return_url=${return_url}&key=${secret_key}`;
-    const sign = md5(str);
+    const sign = md5(str).toUpperCase();
     const obj = {
       orderid: order_id,
       api_id,

@@ -33,6 +33,12 @@ export class UserService {
       .getManyAndCount();
   }
 
+  async find_user_by_id(id: number) {
+    return await this.userModel.findOne({
+      where: { id: id },
+    });
+  }
+
   async login(data: UserEntity) {
     return await this.userModel.findOne({
       where: { username: data.username, password: data.password },

@@ -3,11 +3,10 @@
     <el-space>
       <el-input v-model="query.user_id" placeholder="请输入商户号" />
       <el-input v-model="query.user_name" placeholder="请输入商户名" />
-      <el-button type="primary" icon="Search" @click="find_records">查询 </el-button>
+      <el-button type="primary" icon="Search" @click="find_records">查询</el-button>
     </el-space>
     <el-divider />
     <el-table :data="records" border stripe v-loading="loading">
-      <el-table-column prop="id" label="编号"></el-table-column>
       <el-table-column prop="channel.id" label="通道号"></el-table-column>
       <el-table-column prop="channel.name" label="通道名称" />
       <el-table-column label="费率">
@@ -22,7 +21,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template #default="prop">
-          <el-button type="primary" @click="update_record(prop.row)">修改 </el-button>
+          <el-button type="primary" @click="update_record(prop.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>

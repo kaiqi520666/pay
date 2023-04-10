@@ -26,6 +26,9 @@ export class OrderEntity extends BaseEntity {
   //费率
   @Column({ type: 'decimal', precision: 5, scale: 1 })
   rate: number;
+  //附加信息
+  @Column({ length: 50 })
+  extra: string;
   //回调地址
   @Column({ length: 200 })
   notify_url: string;

@@ -16,7 +16,14 @@ export class CreateOrderDTO {
   //回调地址
   @Rule(RuleType.string().required())
   notify_url: string;
+
+  @Rule(RuleType.string())
+  extra: string;
+
+  @Rule(RuleType.string())
+  sign: string;
 }
+
 export class FindOrdersDTO {
   @Rule(RuleType.number())
   user_id: number;
