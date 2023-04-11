@@ -72,7 +72,8 @@
 import { shallowRef, onMounted, ref, onUnmounted } from 'vue';
 import { find_withdraws } from '@/api/withdraw';
 import { useDateFormat } from '@vueuse/core';
-import type { UserModel, WithdrawStatus, QueryModel, WithdrawModel } from '@/types';
+import type { UserModel, QueryModel, WithdrawModel } from '@/types';
+import { WithdrawStatus } from '@/types';
 import { find_user } from '@/api/user';
 import { ElMessage } from 'element-plus';
 import { removeEmpty } from '@/utils/common';

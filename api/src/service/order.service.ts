@@ -15,12 +15,12 @@ export class OrderService {
   async create_order(order: OrderEntity) {
     return await this.orderModel.save(order);
   }
+
   async find_orders(query: any) {
     return await this.orderModel
       .createQueryBuilder('order')
       .innerJoin('order.user', 'user')
-      .innerJoin('order.user_channel', 'user_channel')
-      .innerJoin('user_channel.channel', 'channel')
+      .innerJoin('order.channel', 'channel')
       .where(query.str, query.obj)
       .offset(query.offset)
       .limit(query.limit)
@@ -38,11 +38,11 @@ export class OrderService {
         'order.settle_amount',
         'user.id',
         'user.username',
-        'user_channel.id',
         'channel.name',
       ])
       .getManyAndCount();
   }
+
   async find_24h_order_by_user_id(id: number, date: string) {
     const sql = `SELECT DATE_FORMAT(o.\`create_time\`, "%H") AS hours,SUM(o.amount) AS amount FROM \`order\` o join \`user\` u on o.userId=u.id where u.id=${id} and o.create_time>"${date}" GROUP BY hours;`;
     return this.orderModel.query(sql);

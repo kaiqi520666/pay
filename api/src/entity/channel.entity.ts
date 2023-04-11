@@ -1,6 +1,7 @@
 // channel.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { UserChannelEntity } from './user_channel.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity('channel')
 export class ChannelEntity {
@@ -20,4 +21,7 @@ export class ChannelEntity {
   //user_channels: UserChannelEntity[];
   @OneToMany(() => UserChannelEntity, userChannel => userChannel.channel)
   user_channels: UserChannelEntity[];
+
+  @OneToMany(() => OrderEntity, order => order.channel)
+  orders: OrderEntity[];
 }

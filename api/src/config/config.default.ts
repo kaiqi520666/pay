@@ -13,7 +13,7 @@ export default {
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: '123456',
+        password: '5e46258384658271',
         database: 'pay',
         synchronize: true,
         dateStrings: true,

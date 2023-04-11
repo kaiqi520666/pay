@@ -10,3 +10,8 @@ export class UpdateChannelDTO {
   @Rule(RuleType.boolean().required())
   enabled: boolean;
 }
+
+export class FindNotUserChannelsDTO {
+  @Rule(RuleType.number())
+  user_id: number;
+}

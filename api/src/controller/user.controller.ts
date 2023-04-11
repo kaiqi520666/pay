@@ -23,7 +23,6 @@ import { JwtPassportMiddleware } from '../middleware/jwt.middleware';
 import { UserService } from '../service/user.service';
 import { BaseController } from './base.controller';
 import { get_find_users_query, randomString } from '../utils/common';
-import { UserChannelEntity } from '../entity/user_channel.entity';
 import { ChannelService } from '../service/channel.service';
 import { UserChannelService } from '../service/user_channel.service';
 
@@ -109,17 +108,17 @@ export class UserController extends BaseController {
     model.wallet_type = wallet_type;
     const user = await this.userService.add_user(model);
     if (user) {
-      const channels = await this.channelService.find_channels();
-      const userChannels = new Array<UserChannelEntity>();
-      for (const channel of channels) {
-        const userChannel = new UserChannelEntity();
-        userChannel.user = user;
-        userChannel.channel = channel;
-        userChannel.rate = channel.rate;
-        userChannel.enabled = channel.enabled;
-        userChannels.push(userChannel);
-      }
-      await this.userChannelService.save_user_channels(userChannels);
+      // const channels = await this.channelService.find_channels();
+      // const userChannels = new Array<UserChannelEntity>();
+      // for (const channel of channels) {
+      //   const userChannel = new UserChannelEntity();
+      //   userChannel.user = user;
+      //   userChannel.channel = channel;
+      //   userChannel.rate = channel.rate;
+      //   userChannel.enabled = channel.enabled;
+      //   userChannels.push(userChannel);
+      // }
+      // await this.userChannelService.save_user_channels(userChannels);
       return this.success();
     } else {
       return this.error(500, { error: 'username is already exist' });

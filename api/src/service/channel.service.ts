@@ -55,4 +55,8 @@ export class ChannelService {
     const { data } = await this.httpService.post(url, obj);
     return data;
   }
+
+  async find_channel_by_id(channel_id: number) {
+    return await this.channelModel.findOne({ where: { id: channel_id } });
+  }
 }

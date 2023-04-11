@@ -4,6 +4,7 @@ import { Provide } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserChannelEntity } from '../entity/user_channel.entity';
+
 @Provide()
 export class UserChannelService {
   @InjectEntityModel(UserChannelEntity)
@@ -12,6 +13,7 @@ export class UserChannelService {
   async save_user_channels(userChannels: UserChannelEntity[]) {
     return await this.userChannelModel.save(userChannels);
   }
+
   async find_user_channels(query: any) {
     return await this.userChannelModel
       .createQueryBuilder('user_channel')
@@ -29,12 +31,18 @@ export class UserChannelService {
       ])
       .getMany();
   }
+
   async find_user_channel(user_id: number, channel_id: number) {
     return await this.userChannelModel.findOne({
       where: { user: { id: user_id }, channel: { id: channel_id } },
     });
   }
+
   async update_user_channel(userChannel: UserChannelEntity) {
     return await this.userChannelModel.save(userChannel);
+  }
+
+  async add_user_channel(user_channel: UserChannelEntity) {
+    return await this.userChannelModel.save(user_channel);
   }
 }

@@ -1,9 +1,16 @@
 <template>
   <el-scrollbar>
     <el-space>
-      <el-input v-model="query.user_id" placeholder="请输入商户号" />
-      <el-input v-model="query.user_name" placeholder="请输入商户名" />
-      <el-button type="primary" icon="Search" @click="find_records">查询</el-button>
+      <el-input readonly v-model="query.user_id" placeholder="请输入商户号" />
+      <el-select v-model="channel_id" clearable placeholder="通道">
+        <el-option
+          v-for="item in channels"
+          :key="item.id"
+          :label="item.name as string"
+          :value="item.id as number"
+        />
+      </el-select>
+      <el-button type="primary" icon="Plus" @click="add_channel">添加通道</el-button>
     </el-space>
     <el-divider />
     <el-table :data="records" border stripe v-loading="loading">
@@ -28,24 +35,29 @@
   </el-scrollbar>
 </template>
 <script setup lang="ts">
-import type { QueryModel, UserChannelModel } from '@/types';
+import type { ChannelModel, QueryModel, UserChannelModel } from '@/types';
 import { onMounted, onUnmounted, ref } from 'vue';
-import { find_user_channels, update_user_channel } from '@/api/user_channel';
+import { add_user_channel, find_user_channels, update_user_channel } from '@/api/user_channel';
 import { removeEmpty } from '@/utils/common';
 import { ElMessage } from 'element-plus';
 import { useStore } from '@/store';
+import { find_not_user_channels } from '@/api/channel';
 
 const store = useStore();
 
 const records = ref<UserChannelModel[]>([]);
+const channels = ref<ChannelModel[]>([]);
+const channel_id = ref<number>();
 const loading = ref<boolean>(false);
-const query = ref<QueryModel>({
-  user_id: store.user_id,
-  user_name: ''
+const query = ref({
+  user_id: store.user_id
 });
+const find_channels = async () => {
+  const { data } = await find_not_user_channels({ user_id: store.user_id });
+  channels.value = data.records;
+};
 const find_records = async () => {
-  if (query.value.order_id == '' && query.value.user_name == '') {
-    ElMessage.error('请输入查询条件');
+  if (query.value.user_id == '') {
     return;
   }
   loading.value = true;
@@ -66,8 +78,26 @@ const update_record = async (user_channel: UserChannelModel) => {
     ElMessage.error('修改失败');
   }
 };
+const add_channel = async () => {
+  if (!channel_id.value || !query.value.user_id) {
+    ElMessage.error('请选择商户号和通道');
+    return;
+  }
+  const { data } = await add_user_channel({
+    user_id: query.value.user_id,
+    channel_id: channel_id.value
+  });
+  if (data.code == 200) {
+    ElMessage.success('添加成功');
+    await find_records();
+    await find_channels();
+  }
+};
 onMounted(async () => {
-  if (store.user_id != '') await find_records();
+  if (store.user_id != '') {
+    await find_records();
+    await find_channels();
+  }
 });
 onUnmounted(() => {
   store.user_id = '';

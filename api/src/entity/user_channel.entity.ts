@@ -1,15 +1,9 @@
 // user_channel表
 // Path: src/entity/user_channel.entity.ts
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { ChannelEntity } from './channel.entity';
-import { OrderEntity } from './order.entity';
+
 @Entity('user_channel')
 export class UserChannelEntity {
   @PrimaryGeneratedColumn()
@@ -22,6 +16,4 @@ export class UserChannelEntity {
   user: UserEntity;
   @ManyToOne(() => ChannelEntity, channel => channel.user_channels)
   channel: ChannelEntity;
-  @OneToMany(() => OrderEntity, order => order.user_channel)
-  orders: OrderEntity[];
 }

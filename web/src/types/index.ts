@@ -43,7 +43,7 @@ export type OrderModel = {
   amount?: number;
   rate?: number;
   user: UserModel;
-  user_channel: UserChannelModel;
+  channel: ChannelModel;
   create_time?: string;
   update_time?: string;
   status?: number;

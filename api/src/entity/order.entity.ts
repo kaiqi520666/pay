@@ -1,7 +1,7 @@
 import { Column, Entity, Index, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
-import { UserChannelEntity } from './user_channel.entity';
+import { ChannelEntity } from './channel.entity';
 
 //order数据表
 @Entity('order')
@@ -33,8 +33,8 @@ export class OrderEntity extends BaseEntity {
   @Column({ length: 200 })
   notify_url: string;
   //关联用户通道
-  @ManyToOne(() => UserChannelEntity, user_channel => user_channel.orders)
-  user_channel: UserChannelEntity;
+  @ManyToOne(() => ChannelEntity, channel => channel.orders)
+  channel: ChannelEntity;
   //商户
   @ManyToOne(() => UserEntity, user => user.orders)
   user: UserEntity;

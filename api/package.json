@@ -15,6 +15,7 @@
     "@midwayjs/passport": "^3.11.3",
     "@midwayjs/typeorm": "^3.11.3",
     "@midwayjs/validate": "^3.0.0",
+    "md5": "^2.3.0",
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "passport-jwt": "^4.0.1",
