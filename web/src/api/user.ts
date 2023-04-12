@@ -20,3 +20,6 @@ export const find_users = async (offset: number, data: any = undefined) => {
 export const add_user = async (data: any) => {
   return await request.post('/user/add_user', data);
 };
+export const add_user_amount = async (data: any) => {
+  return await request.post('/user/add_user_amount', data);
+};

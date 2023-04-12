@@ -10,6 +10,7 @@ import {
 import { Context } from '@midwayjs/koa';
 import { Role } from '../decorator/role.decorator';
 import {
+  AddUserAmountDTO,
   FindUserDTO,
   FindUsersDTO,
   UpdateUserDTO,
@@ -25,6 +26,7 @@ import { BaseController } from './base.controller';
 import { get_find_users_query, randomString } from '../utils/common';
 import { ChannelService } from '../service/channel.service';
 import { UserChannelService } from '../service/user_channel.service';
+import { PayEntity } from '../entity/pay.entity';
 
 @UseGuard(AuthGuard)
 @Controller('/api/user', { middleware: [JwtPassportMiddleware] })
@@ -122,6 +124,23 @@ export class UserController extends BaseController {
       return this.success();
     } else {
       return this.error(500, { error: 'username is already exist' });
+    }
+  }
+
+  @Role(['admin'])
+  @Post('/add_user_amount')
+  async add_user_amount(@Body(ALL) body: AddUserAmountDTO) {
+    try {
+      const pay = new PayEntity();
+      const user = new UserEntity();
+      pay.order_id = 'P' + randomString(20);
+      pay.amount = body.amount;
+      pay.user = user;
+      pay.status = 2;
+      await this.userService.add_user_amount(body, undefined, undefined, pay);
+      return this.success();
+    } catch (e) {
+      return this.error(500, { error: e.message });
     }
   }
 }

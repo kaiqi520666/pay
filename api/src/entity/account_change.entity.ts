@@ -6,6 +6,8 @@ import { WithdrawEntity } from './withdraw.entity';
 import { OrderEntity } from './order.entity';
 
 import { UserEntity } from './user.entity';
+import { PayEntity } from './pay.entity';
+
 @Entity('account_change')
 export class AccountChangeEntity extends BaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
@@ -32,4 +34,8 @@ export class AccountChangeEntity extends BaseEntity {
     account_category => account_category.account_changes
   )
   account_category: AccountCategoryEntity;
+
+  @OneToOne(() => PayEntity)
+  @JoinColumn()
+  pay: PayEntity;
 }

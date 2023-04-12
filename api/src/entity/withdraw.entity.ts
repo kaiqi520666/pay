@@ -8,7 +8,7 @@ import { UserEntity } from './user.entity';
 @Entity('withdraw')
 export class WithdrawEntity extends BaseEntity {
   //订单号
-  @Index({ unique: true })
+  @Index('withdraw_order_id', { unique: true })
   @Column({ length: 50, unique: true })
   order_id: string;
   //取款金额

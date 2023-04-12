@@ -23,6 +23,7 @@ export class ChannelService {
     return_url: string;
     ip: string;
     secret_key: string;
+    mid: string;
   };
 
   async find_channels() {
@@ -38,6 +39,7 @@ export class ChannelService {
     const api_id = this.config.api_id;
     const notify_url = this.config.notify_url;
     const return_url = this.config.return_url;
+    const mid = this.config.mid;
     const ip = this.config.ip;
     const secret_key = this.config.secret_key;
     const str = `api_id=${api_id}&money=${money}&notify_url=${notify_url}&orderid=${order_id}&return_url=${return_url}&key=${secret_key}`;
@@ -49,6 +51,7 @@ export class ChannelService {
       return_url,
       ip,
       sign,
+      mid,
       money,
       mbphone: phone,
     };

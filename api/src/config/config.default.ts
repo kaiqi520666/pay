@@ -37,5 +37,6 @@ export default {
     return_url: 'http://www.sina.com.cn',
     ip: '18.162.232.94',
     secret_key: 'x4ytUJsmPhbFawLH5K',
+    mid: '2a76474e-92ce-493c-af63-5c2a8a33ac99',
   },
 } as MidwayConfig;

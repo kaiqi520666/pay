@@ -37,10 +37,10 @@
     <el-divider />
     <el-table v-loading="loading" :data="records" border stripe>
       <el-table-column label="平台订单号" prop="order_id" width="240"></el-table-column>
-      <el-table-column label="商户订单号" prop="out_order_id"></el-table-column>
+      <el-table-column label="商户订单号" prop="out_order_id" width="240"></el-table-column>
       <el-table-column label="商户号" prop="user.id"></el-table-column>
       <el-table-column label="商户名" prop="user.username"></el-table-column>
-      <el-table-column label="通道" prop="user_channel.channel.name"></el-table-column>
+      <el-table-column label="通道" prop="channel.name"></el-table-column>
       <el-table-column label="订单金额" prop="amount"></el-table-column>
       <el-table-column label="费率" prop="rate"></el-table-column>
       <el-table-column label="结算金额" prop="settle_amount"></el-table-column>

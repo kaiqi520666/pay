@@ -69,7 +69,7 @@
             <el-button @click="update_record(prop.row as UserModel)">修改</el-button>
             <el-button @click="user_channel(prop.row.id)">通道</el-button>
             <el-button @click="order(prop.row.id)">订单</el-button>
-            <el-button>取款</el-button>
+            <el-button @click="show_pay_handler(prop.row.id)">充值</el-button>
           </el-space>
         </template>
       </el-table-column>
@@ -102,10 +102,26 @@
         </span>
       </template>
     </el-dialog>
+    <el-dialog v-model="show_pay" :before-close="() => (show_pay = false)" title="商户充值">
+      <el-form :model="pay_user" label-width="100px">
+        <el-form-item label="商户号">
+          {{ pay_user.user_id }}
+        </el-form-item>
+        <el-form-item label="充值金额">
+          <el-input-number v-model="pay_user.amount" :min="0" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="show_pay = false">取消</el-button>
+          <el-button type="primary" @click="add_amount"> 确定 </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </el-scrollbar>
 </template>
 <script setup lang="ts">
-import { add_user, find_users, update_user } from '@/api/user';
+import { add_user, add_user_amount, find_users, update_user } from '@/api/user';
 import { onMounted, ref, shallowRef } from 'vue';
 import type { UpdateUserModel, UserModel, WalletTypeModel, QueryModel } from '@/types';
 import { useDateFormat } from '@vueuse/core';
@@ -121,6 +137,7 @@ const router = useRouter();
 const records = shallowRef<UserModel[]>([]);
 const loading = ref<boolean>(false);
 const show_add_merchant = ref<boolean>(false);
+const show_pay = ref<boolean>(false);
 const wallet_types = ref<WalletTypeModel[]>([]);
 
 const query = ref<QueryModel>({
@@ -131,6 +148,14 @@ const user = ref({
   username: '',
   password: ''
 });
+const pay_user = ref({
+  user_id: 0,
+  amount: 0
+});
+const show_pay_handler = (id: number) => {
+  show_pay.value = true;
+  pay_user.value.user_id = id;
+};
 const page_change = async (value: number) => {
   Pager.value.page = value;
   await find_records();
@@ -199,5 +224,20 @@ const user_channel = (id: string) => {
 const order = (id: string) => {
   store.user_id = id;
   router.push({ name: 'admin_order' });
+};
+const add_amount = async () => {
+  const { data } = await add_user_amount({
+    user_id: pay_user.value.user_id,
+    amount: pay_user.value.amount,
+    account_category_id: 2
+  });
+  if (data.code == 200) {
+    ElMessage.success('充值成功');
+    show_pay.value = false;
+    await find_records();
+  } else {
+    console.log(data);
+    ElMessage.error('充值失败');
+  }
 };
 </script>

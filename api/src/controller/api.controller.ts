@@ -51,7 +51,7 @@ export class APIController extends BaseController {
       user.id,
       body.channel_id
     );
-    if (!user_channel) {
+    if (user_channel != null) {
       if (!user_channel.enabled) {
         return this.error(502, { error: '商户通道未开启' });
       }
@@ -65,7 +65,6 @@ export class APIController extends BaseController {
     order.notify_url = body.notify_url;
     order.extra = body.extra;
     const records = await this.orderService.create_order(order);
-    console.log(records);
     const result = await this.channelService.create_channel_1(
       order.order_id,
       order.amount,

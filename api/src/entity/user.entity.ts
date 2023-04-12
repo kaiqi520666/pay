@@ -6,6 +6,7 @@ import { UserLoginEntity } from './user_login.entity';
 import { WalletTypeEntity } from './wallet_type.entity';
 import { WithdrawEntity } from './withdraw.entity';
 import { AccountChangeEntity } from './account_change.entity';
+import { PayEntity } from './pay.entity';
 
 enum Role {
   ADMIN = 'admin',
@@ -61,4 +62,8 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => AccountChangeEntity, account_change => account_change.user)
   account_changes: AccountChangeEntity[];
+
+  //关联pay表
+  @OneToMany(() => PayEntity, pay => pay.user)
+  pays: PayEntity[];
 }

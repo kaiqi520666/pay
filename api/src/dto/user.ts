@@ -51,3 +51,12 @@ export class UpdateUserDTO {
   @Rule(RuleType.boolean())
   enabled: boolean;
 }
+
+export class AddUserAmountDTO {
+  @Rule(RuleType.number())
+  amount: number;
+  @Rule(RuleType.number())
+  user_id: number;
+  @Rule(RuleType.number())
+  account_category_id: number;
+}

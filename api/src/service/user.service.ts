@@ -1,12 +1,20 @@
-import { Provide } from '@midwayjs/core';
-import { InjectEntityModel } from '@midwayjs/typeorm';
+import { Inject, Provide } from '@midwayjs/core';
+import { InjectEntityModel, TypeORMDataSourceManager } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
+import { AccountChangeEntity } from '../entity/account_change.entity';
+import { AccountCategoryEntity } from '../entity/account_category.entity';
+import { AddUserAmountDTO } from '../dto/user';
+import { OrderEntity } from '../entity/order.entity';
+import { WithdrawEntity } from '../entity/withdraw.entity';
+import { PayEntity } from '../entity/pay.entity';
 
 @Provide()
 export class UserService {
   @InjectEntityModel(UserEntity)
   userModel: Repository<UserEntity>;
+  @Inject()
+  dataSourceManager: TypeORMDataSourceManager;
 
   async find_users(query: any) {
     return await this.userModel
@@ -65,5 +73,48 @@ export class UserService {
 
   async update_user(data: UserEntity) {
     return await this.userModel.save(data);
+  }
+
+  async add_user_amount(
+    add_user_amount_dto: AddUserAmountDTO,
+    order: OrderEntity = undefined,
+    withdraw: WithdrawEntity = undefined,
+    pay: PayEntity = undefined
+  ) {
+    const dataSource = this.dataSourceManager.getDataSource('default');
+    await dataSource.transaction(async transactionalEntityManager => {
+      const user = await transactionalEntityManager.findOne(UserEntity, {
+        where: { id: add_user_amount_dto.user_id },
+      });
+      const account_category = await transactionalEntityManager.findOne(
+        AccountCategoryEntity,
+        {
+          where: { id: add_user_amount_dto.account_category_id },
+        }
+      );
+      const account_change = new AccountChangeEntity();
+      account_change.user = user;
+      account_change.account_category = account_category;
+      const amount = Number(
+        add_user_amount_dto.amount * account_category.operate
+      );
+      const before_amount = Number(user.amount);
+      const after_amount = Number(user.amount) + amount;
+      account_change.amount = amount;
+      account_change.before = before_amount;
+      account_change.after = after_amount;
+      user.amount = after_amount;
+      await transactionalEntityManager.save(user);
+
+      if (order)
+        account_change.order = await transactionalEntityManager.save(order);
+      if (withdraw)
+        account_change.withdraw = await transactionalEntityManager.save(
+          withdraw
+        );
+      if (pay) account_change.pay = await transactionalEntityManager.save(pay);
+
+      await transactionalEntityManager.save(account_change);
+    });
   }
 }
