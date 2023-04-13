@@ -136,6 +136,12 @@ export const get_find_account_change_query = (
     arr_str.push('user.id = :user_id');
     obj['user_id'] = user_id;
   }
+  if (role === 'admin') {
+    if (body.user_id) {
+      arr_str.push('user.id = :user_id');
+      obj['user_id'] = body.user_id;
+    }
+  }
   if (body.account_category_id) {
     arr_str.push('account_category.id = :account_category_id');
     obj['account_category_id'] = body.account_category_id;

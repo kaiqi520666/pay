@@ -121,6 +121,12 @@ const router = createRouter({
               name: 'admin_order',
               meta: { title: '订单管理', role: 'admin' },
               component: () => import('../views/admin/manage/order.vue')
+            },
+            {
+              path: 'account_change',
+              name: 'admin_account_change',
+              meta: { title: '商户账变', role: 'admin' },
+              component: () => import('../views/admin/manage/account_change.vue')
             }
           ]
         }

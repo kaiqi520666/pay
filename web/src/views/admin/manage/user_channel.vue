@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import type { ChannelModel, UserChannelModel } from '@/types';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { add_user_channel, find_user_channels, update_user_channel } from '@/api/user_channel';
 import { removeEmpty } from '@/utils/common';
 import { ElMessage } from 'element-plus';
@@ -99,7 +99,7 @@ onMounted(async () => {
     await find_channels();
   }
 });
-onUnmounted(() => {
+onBeforeUnmount(() => {
   store.user_id = '';
 });
 </script>

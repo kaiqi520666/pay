@@ -15,6 +15,7 @@ export class AccountChangeService {
       .innerJoin('account_change.account_category', 'account_category')
       .leftJoin('account_change.order', 'order')
       .leftJoin('account_change.withdraw', 'withdraw')
+      .leftJoin('account_change.pay', 'pay')
       .where(query.str, query.obj)
       .offset(query.offset)
       .limit(query.limit)
@@ -26,9 +27,11 @@ export class AccountChangeService {
         'account_change.before',
         'account_change.after',
         'account_change.create_time',
+        'account_category.id',
         'account_category.name',
         'account_category.operate',
         'withdraw.order_id',
+        'pay.order_id',
         'user.id',
         'user.username',
       ])

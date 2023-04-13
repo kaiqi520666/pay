@@ -63,12 +63,13 @@
           <el-switch v-model="prop.row.enabled" active-text="激活" inactive-text="禁用" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="300">
+      <el-table-column label="操作" width="400">
         <template #default="prop">
           <el-space>
             <el-button @click="update_record(prop.row as UserModel)">修改</el-button>
             <el-button @click="user_channel(prop.row.id)">通道</el-button>
             <el-button @click="order(prop.row.id)">订单</el-button>
+            <el-button @click="account_change(prop.row.id)">账变</el-button>
             <el-button @click="show_pay_handler(prop.row.id)">充值</el-button>
           </el-space>
         </template>
@@ -226,6 +227,10 @@ const order = (id: string) => {
   router.push({ name: 'admin_order' });
 };
 const add_amount = async () => {
+  if (pay_user.value.amount <= 0) {
+    ElMessage.error('充值金额必须大于0');
+    return;
+  }
   const { data } = await add_user_amount({
     user_id: pay_user.value.user_id,
     amount: pay_user.value.amount,
@@ -239,5 +244,9 @@ const add_amount = async () => {
     console.log(data);
     ElMessage.error('充值失败');
   }
+};
+const account_change = (id: string) => {
+  store.user_id = id;
+  router.push({ name: 'admin_account_change' });
 };
 </script>

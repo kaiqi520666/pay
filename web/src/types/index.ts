@@ -67,6 +67,12 @@ export type AccountCategoryModel = {
   name?: string;
   operate?: number;
 };
+export type PayModel = {
+  id?: number;
+  order_id?: string;
+  amount?: number;
+  status?: number;
+};
 export const OrderStatus = [
   { label: '支付中', value: 1 },
   { label: '已支付', value: 2 }

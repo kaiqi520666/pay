@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, shallowRef, onUnmounted } from 'vue';
+import { ref, onMounted, shallowRef, onBeforeUnmount } from 'vue';
 import { find_orders } from '@/api/order';
 import type { OrderModel, QueryModel, UserChannelModel } from '@/types';
 import { removeEmpty } from '@/utils/common';
@@ -113,7 +113,7 @@ onMounted(async () => {
   await find_records();
   await find_channel();
 });
-onUnmounted(() => {
+onBeforeUnmount(() => {
   store.user_id = '';
 });
 </script>

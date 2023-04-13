@@ -23,7 +23,11 @@ import { JwtPassportMiddleware } from '../middleware/jwt.middleware';
 
 import { UserService } from '../service/user.service';
 import { BaseController } from './base.controller';
-import { get_find_users_query, randomString } from '../utils/common';
+import {
+  create_order_id,
+  get_find_users_query,
+  randomString,
+} from '../utils/common';
 import { ChannelService } from '../service/channel.service';
 import { UserChannelService } from '../service/user_channel.service';
 import { PayEntity } from '../entity/pay.entity';
@@ -133,7 +137,7 @@ export class UserController extends BaseController {
     try {
       const pay = new PayEntity();
       const user = new UserEntity();
-      pay.order_id = 'P' + randomString(20);
+      pay.order_id = create_order_id('P');
       pay.amount = body.amount;
       pay.user = user;
       pay.status = 2;
